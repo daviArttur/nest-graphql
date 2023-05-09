@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  api:
+    container_name: api-graphql
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/nestjs-graphql?schema=public
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    networks:
+      - env_net
+    command: sh -c "npm start && tail -f /dev/null"
+  db:
+    container_name: postgres-graphql
+    image: postgres:13-alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=nestjs-graphql
+    networks:
+      - env_net
+
+networks:
+  env_net:
+    driver: bridge
