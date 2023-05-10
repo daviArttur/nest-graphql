@@ -1,7 +1,10 @@
 import { PrismaService } from 'nestjs-prisma';
 import { Injectable } from '@nestjs/common';
 import { Email, ID } from 'src/domain/types';
-import { FindAllPostArgs } from '../dto/CreatePost.dto';
+import {
+  FindAllPostArgs,
+  FindUserPostsByUserIdArgs,
+} from '../dto/CreatePost.dto';
 
 @Injectable()
 export class QueryRepositoryInfra {
@@ -23,6 +26,19 @@ export class QueryRepositoryInfra {
     } catch (err) {}
   }
 
+  async findPostsByUserId(userId: ID, args: FindUserPostsByUserIdArgs) {
+    try {
+      return await this.prisma.posts.findMany({
+        where: { userId },
+        take: args.quantity,
+        skip: args.skip,
+        orderBy: {
+          id: args.mostRecent ? 'desc' : 'asc',
+        },
+      });
+    } catch (err) {}
+  }
+
   async findOneByEmail(email: Email) {
     try {
       return await this.prisma.users.findUnique({
@@ -34,10 +50,14 @@ export class QueryRepositoryInfra {
   }
 
   async findAllPosts(args: FindAllPostArgs) {
+    console.log(args);
     try {
       return await this.prisma.posts.findMany({
         skip: args.skip,
         take: args.quantity,
+        include: {
+          Users: args.includeCreators,
+        },
       });
     } catch (err) {}
   }

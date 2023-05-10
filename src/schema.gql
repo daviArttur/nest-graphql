@@ -10,6 +10,16 @@ type User {
 
   """Age of user"""
   age: Int!
+  posts(args: FindUserPostsByUserIdArgs!): [Post!]
+}
+
+input FindUserPostsByUserIdArgs {
+  """select quantity to get of database"""
+  quantity: Float = 6
+
+  """number to jump rows on query results in database"""
+  skip: Float!
+  mostRecent: Boolean = true
 }
 
 type Token {
@@ -28,6 +38,7 @@ type Post {
   content: String!
   created_at: DateTime!
   updated_at: DateTime!
+  creator: User!
 }
 
 """
@@ -42,8 +53,14 @@ type Query {
 }
 
 input FindAllPostArgs {
+  """number to jump rows on query results in database"""
   skip: Float!
+
+  """select quantity to get of database"""
   quantity: Float!
+
+  """include creators of posts"""
+  includeCreators: Boolean! = false
 }
 
 type Mutation {

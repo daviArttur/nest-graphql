@@ -9,6 +9,14 @@ export class PostsResolver {
 
   @Query(() => [Post], { name: 'posts' })
   async findPosts(@Args('args') args: FindAllPostArgs) {
-    return await this.repostirory.findAllPosts(args);
+    const result = await this.repostirory.findAllPosts(args);
+
+    const remapedResult = result.map((r) => {
+      const result = { ...r, creator: r.Users };
+      delete result.Users;
+      return result;
+    });
+
+    return remapedResult;
   }
 }

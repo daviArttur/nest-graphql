@@ -53,4 +53,7 @@ export class Post {
 
   @Field(() => Date)
   updated_at: Date;
+
+  @Field(() => User)
+  creator: User;
 }
