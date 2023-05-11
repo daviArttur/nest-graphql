@@ -44,6 +44,13 @@ export class FindAllPostArgs {
 }
 
 @InputType()
+export class FindUniquePostByIdArgs {
+  @Field(() => Number)
+  @IsNumber()
+  id: number;
+}
+
+@InputType()
 export class FindUserPostsByUserIdArgs {
   @Field(() => Number, {
     nullable: true,

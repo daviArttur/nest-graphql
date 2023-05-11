@@ -15,6 +15,10 @@ import { QueryModule } from './Query.module';
     RepositoryModule,
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
+      subscriptions: {
+        'graphql-ws': true,
+        'subscriptions-transport-ws': true,
+      },
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
     }),
   ],

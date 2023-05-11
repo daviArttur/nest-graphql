@@ -1,6 +1,18 @@
 version: '3.9'
 
 services:
+  db:
+    container_name: postgres-graphql
+    image: postgres:13-alpine
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=nestjs-graphql
+    networks:
+      - env_net
   api:
     container_name: api-graphql
     restart: always
@@ -12,24 +24,12 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on:
       - db
     networks:
       - env_net
-    command: sh -c "npm start && tail -f /dev/null"
-  db:
-    container_name: postgres-graphql
-    image: postgres:13-alpine
-    restart: always
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=nestjs-graphql
-    networks:
-      - env_net
+    command: sh -c "npx prisma db push && npm start && tail -f /dev/null"
 
 networks:
   env_net:

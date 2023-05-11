@@ -1,7 +1,7 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
 import { Post } from 'src/types';
 import { QueryRepositoryInfra } from '../repository/Query.repository';
-import { FindAllPostArgs } from '../dto/CreatePost.dto';
+import { FindAllPostArgs, FindUniquePostByIdArgs } from '../dto/CreatePost.dto';
 
 @Resolver()
 export class PostsResolver {
@@ -18,5 +18,10 @@ export class PostsResolver {
     });
 
     return remapedResult;
+  }
+
+  @Query(() => Post, { name: 'post' })
+  async findUniquePostById(@Args('args') args: FindUniquePostByIdArgs) {
+    return await this.repostirory.findPostById(args);
   }
 }

@@ -10,8 +10,4 @@ RUN npm run build
 
 RUN npx prisma generate
 
-RUN npx prisma db push
-
-CMD ["node", "dist/main.js"]
-
 EXPOSE 3000

@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { Email, ID } from 'src/domain/types';
 import {
   FindAllPostArgs,
+  FindUniquePostByIdArgs,
   FindUserPostsByUserIdArgs,
 } from '../dto/CreatePost.dto';
 
@@ -50,13 +51,22 @@ export class QueryRepositoryInfra {
   }
 
   async findAllPosts(args: FindAllPostArgs) {
-    console.log(args);
     try {
       return await this.prisma.posts.findMany({
         skip: args.skip,
         take: args.quantity,
         include: {
           Users: args.includeCreators,
+        },
+      });
+    } catch (err) {}
+  }
+
+  async findPostById(args: FindUniquePostByIdArgs) {
+    try {
+      return await this.prisma.posts.findUnique({
+        where: {
+          id: args.id,
         },
       });
     } catch (err) {}

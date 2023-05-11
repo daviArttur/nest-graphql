@@ -12,6 +12,6 @@ export class PostsMutations {
   @UseInterceptors(JwtInterceptor)
   @Mutation(() => Post, { nullable: true, name: 'createPost' })
   async createPost(@Args('dto') dto: CreatePostDtoInfra, @Context() ctx: any) {
-    await this.usecase.execute(dto, ctx.req.user.subject);
+    return await this.usecase.execute(dto, ctx.req.user.subject);
   }
 }

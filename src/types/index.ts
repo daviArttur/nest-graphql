@@ -57,3 +57,9 @@ export class Post {
   @Field(() => User)
   creator: User;
 }
+
+@ObjectType()
+export class Content {
+  @Field(() => String)
+  content: string;
+}

@@ -46,10 +46,15 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Content {
+  content: String!
+}
+
 type Query {
   users: [User!]!
   user: User!
   posts(args: FindAllPostArgs!): [Post!]!
+  post(args: FindUniquePostByIdArgs!): Post!
 }
 
 input FindAllPostArgs {
@@ -61,6 +66,10 @@ input FindAllPostArgs {
 
   """include creators of posts"""
   includeCreators: Boolean! = false
+}
+
+input FindUniquePostByIdArgs {
+  id: Float!
 }
 
 type Mutation {
@@ -84,4 +93,8 @@ input CreateUserDtoInfra {
 input LoginDto {
   email: String!
   password: String!
+}
+
+type Subscription {
+  returnNewPostForSubscribers: Content!
 }
