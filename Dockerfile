@@ -10,4 +10,4 @@ RUN npm run build
 
 RUN npx prisma generate
 
-EXPOSE 3000
+EXPOSE 3002

@@ -20,11 +20,12 @@ services:
       - .env
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/nestjs-graphql?schema=public
+      - PORT=3002
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - '3000:3000'
+      - '3002:3002'
     depends_on:
       - db
     networks:
