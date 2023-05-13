@@ -28,7 +28,7 @@ $ cd nest-graphql
 ## Rodar API
 
 ```bash
-$ docker compose up
+$ docker-compose up
 ```
 
 ## Playground
